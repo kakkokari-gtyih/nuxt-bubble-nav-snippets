@@ -1,14 +1,23 @@
 <template>
     <div :class="['fixed flex items-center z-[9999] left-0 top-0 w-screen h-screen', { 'pointer-events-none': !isOpen }, { 'nav-open': isOpen}]">
+        <!-- 背景の広がる丸（メニューボタンの裏側に、2pxずつ余裕を持たせて配置） -->
         <div :class="['absolute z-0 bg top-[34px] left-[34px] md:top-[66px] md:left-[66px] transition-transform rounded-full bg-secondary-500 h-[34px] w-[34px]', {'scale-[150]': isOpen}, {'scale-100': !isOpen}]"></div>
+        
+        <!-- 常に表示される部分 -->
         <div class="absolute top-8 left-8 md:top-16 md:left-16 flex items-start space-x-2">
+
+            <!-- メニューボタン（これの裏に背景の丸が来る） -->
             <button @click="toggleNav()" aria-controls="mainNavigation" :aria-expanded="isOpen" :class="['group transition rounded-full p-2 border-2 pointer-events-auto', {'bg-white hover:bg-secondary-500 text-black border-secondary-500': !isOpen}, {'bg-white hover:bg-secondary-100 text-black border-black': isOpen}]">
                 <CloseIco v-if="isOpen" class="block h-6 w-6" />
                 <MenuIco v-else class="block h-6 w-6" />
                 <span class="sr-only">メニューを開く / 閉じる</span>
             </button>
+
+            <!-- ロゴ（トップページ以外ではトップページに戻るボタンとして表示） -->
             <NuxtLink v-if="route.path != '/'" class="relative -z-30 pointer-events-auto" to="/"><img alt="大阪府立富田林中学校・高等学校とんこう地域フォーラム2024" :src="Logo" :class="['h-11 w-auto transition-opacity hero-logo', {'md:h-20': !route.path.includes('/events/day')}]" /><span class="sr-only">大阪府立富田林中学校・高等学校とんこう地域フォーラム2024</span></NuxtLink>
         </div>
+
+        <!-- メニュー本体 -->
         <nav id="mainNavigation" :aria-hidden="!isOpen" :class="['relative z-10 px-8 md:pl-16 md:pr-0 text-black transition duration-300 delay-100 max-w-full md:max-w-screen-md', {'opacity-0 translate-y-10 pointer-events-none': !isOpen}, {'opacity-100 translate-y-0 pointer-events-auto': isOpen}]">
             <NuxtLink :tabindex="isOpen ? 0 : -1" @click.native="toggleNav()" to="/"><img alt="大阪府立富田林中学校・高等学校とんこう地域フォーラム2024" :src="MenuLogo" class="w-full h-auto mb-4" /><span class="sr-only">大阪府立富田林中学校・高等学校とんこう地域フォーラム2024</span></NuxtLink>
             <div >
